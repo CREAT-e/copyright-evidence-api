@@ -5,14 +5,14 @@ class StudyParser(object):
     def parse_list(self,value):
         return value.split(";")
 
-    def parse_author(self, study, value):
-        study.authors = self.parse_list(value)
+    def parse_author(self, properties, value):
+        properties['authors'] = self.parse_list(value)
 
-    def parse_title(self, study, value):
-        study.title = value
+    def parse_title(self, properties, value):
+        properties['title'] = value
 
-    def parse_year(self, study, value):
-        study.year = value
+    def parse_year(self, properties, value):
+        properties['year'] = value
 
     def __init__(self):
         self.handlers = {}
@@ -37,11 +37,11 @@ class StudyParser(object):
 
         properties = map(lambda line: line.split("="), property_lines)
 
-        study = Study()
+        parsed_properties = {}
 
         for prop in properties:
             key = prop[0]
             val = prop[1]
-            self.parse_prop(study, key, val)
+            self.parse_prop(parsed_properties, key, val)
 
-        return study
+        return Study(parsed_properties)
