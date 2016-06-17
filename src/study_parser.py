@@ -30,7 +30,7 @@ class StudyParser(object):
         lines = map(lambda line: line.replace("{{", "").replace("}}", "").rstrip(), lines)
         lines = filter(lambda line: "=" in line, lines)
 
-        properties = map(lambda line: line.split("="), lines)
+        properties = map(lambda line: line.split("=", 1), lines)
 
         study = {}
         for prop in properties:
