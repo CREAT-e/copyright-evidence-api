@@ -26,13 +26,13 @@ class StudyParser(object):
             handler(study, value)
 
     def parse_study(self,studyText):
-        lines = studyText.split('\n')
-        property_lines = filter(lambda line: line.startswith("|"), lines)
+        lines = studyText.split('|')
+        lines = map(lambda line: line.replace("{{", "").replace("}}", "").rstrip(), lines)
+        lines = filter(lambda line: "=" in line, lines)
 
-        properties = map(lambda line: line.split("="), property_lines)
+        properties = map(lambda line: line.split("="), lines)
 
         study = {}
-
         for prop in properties:
             key = prop[0]
             val = prop[1]
