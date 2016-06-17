@@ -11,10 +11,9 @@ all_studies = []
 
 @app.route("/studies")
 def studies():
-    results = map(lambda study: json.dumps(study.__dict__), all_studies)
 
     payload = {
-        "results" : results
+        "results" : all_studies
     }
 
     return json.dumps(payload)
@@ -26,6 +25,6 @@ if __name__ == "__main__":
     pp = PrettyPrinter()
 
     for study in all_studies:
-        pp.pprint(study.authors)
+        pp.pprint(study.get('authors'))
 
     app.run()

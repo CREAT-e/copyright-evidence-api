@@ -1,24 +1,19 @@
-from study import Study
-
 class StudyParser(object):
 
-    def parse_list(self,value):
+    def parse_list_strategy(self,value):
         return value.split(";")
 
-    def parse_author(self, properties, value):
-        properties['authors'] = self.parse_list(value)
+    def single_field_strategy(self, value):
+        return value
 
-    def parse_title(self, properties, value):
-        properties['title'] = value
-
-    def parse_year(self, properties, value):
-        properties['year'] = value
+    def parse_using_strategy(self, study, give_key, parse_strategy, value):
+        study[give_key] = parse_strategy(value)
 
     def __init__(self):
         self.handlers = {}
-        self.register('author', self.parse_author)
-        self.register('title', self.parse_title)
-        self.register('year', self.parse_year)
+        self.register('author', lambda study, val: self.parse_using_strategy(study, 'authors', self.parse_list_strategy, val))
+        self.register('title', lambda study, val: self.parse_using_strategy(study, 'title', self.single_field_strategy, val))
+        self.register('year', lambda study, val: self.parse_using_strategy(study, 'year', self.parse_list_strategy, val))
 
     def register(self, property, handler):
         self.handlers[property] = handler
@@ -30,18 +25,17 @@ class StudyParser(object):
         if (handler):
             handler(study, value)
 
-
     def parse_study(self,studyText):
         lines = studyText.split('\n')
         property_lines = filter(lambda line: line.startswith("|"), lines)
 
         properties = map(lambda line: line.split("="), property_lines)
 
-        parsed_properties = {}
+        study = {}
 
         for prop in properties:
             key = prop[0]
             val = prop[1]
-            self.parse_prop(parsed_properties, key, val)
+            self.parse_prop(study, key, val)
 
-        return Study(parsed_properties)
+        return study
