@@ -1,6 +1,4 @@
-from pprint import PrettyPrinter
 import json
-from pprint import pprint
 from flask import Flask, jsonify
 from study_loader import StudyLoader
 
@@ -22,9 +20,5 @@ if __name__ == "__main__":
     loader = StudyLoader()
 
     all_studies = loader.get_all_studies()
-    pp = PrettyPrinter()
-
-    for study in all_studies:
-        pp.pprint(study.get('authors'))
 
     app.run()
