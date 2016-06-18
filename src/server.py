@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from database import WikiDatabase
-from study_parser import StudyParser
+from models import Study
 
 app = Flask(__name__)
 app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
@@ -8,18 +8,18 @@ app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
 database = WikiDatabase(app.config["DATABASE"])
 
 
-def get_studies():
+def get_studies_json():
     studies = []
-    parser = StudyParser()
     for text in database.get_studies_text():
-        study = parser.parse_study(text)
-        studies.append(study)
+        study = Study(text)
+        json = study.enriched_json()
+        studies.append(json)
     return studies
 
 
 @app.route("/studies")
 def studies():
-    studies = get_studies()
+    studies = get_studies_json()
     return jsonify({"studies": studies})
 
 
