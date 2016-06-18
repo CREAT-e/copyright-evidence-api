@@ -5,7 +5,7 @@ A HTTP API to access the data hosted in the Copyright Evidence Wiki.
 
 ## Quick Start
 
-1. Create a configuration file.
+Create a configuration file:
 
 ```python
 # See cfg/example.cfg for an example.
@@ -14,12 +14,19 @@ PORT = 3000
 DATABASE = "/home/user/db/database.sqlite"
 ```
 
-2. Set the environment variable `COPYRIGHT_EVIDENCE_API_CFG` to the path of your configuration file.
+Set the environment variable `COPYRIGHT_EVIDENCE_API_CFG` to the path of your configuration file:
 
 ```shell
 $ export COPYRIGHT_EVIDENCE_API_CFG=/home/user/copyright-evidence-api/cfg/development.cfg
 ```
-3. Run the server.
+
+Install the dependencies:
+
+```shell
+pip install -r requirements/development.txt
+```
+
+Run the server.
 
 ```shell
 $ git clone https://github.com/CREAT-e/copyright-evidence-api
@@ -27,7 +34,7 @@ $ cd copyright-evidence-api
 $ python src/server.py
 ```
 
-4. Open http://localhost:3000
+Open http://localhost:3000:
 
 ## API Reference
 
