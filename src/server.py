@@ -9,12 +9,8 @@ database = WikiDatabase(app.config["DATABASE"])
 
 
 def get_studies_json():
-    studies = []
-    for text in database.get_studies_text():
-        study = Study(text)
-        json = study.enriched_json()
-        studies.append(json)
-    return studies
+    return [Study(text).enriched_json()
+            for text in database.get_studies_text()]
 
 
 @app.route("/studies")
