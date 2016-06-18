@@ -20,6 +20,13 @@ Set the environment variable `COPYRIGHT_EVIDENCE_API_CFG` to the path of your co
 $ export COPYRIGHT_EVIDENCE_API_CFG=/home/user/copyright-evidence-api/cfg/development.cfg
 ```
 
+Clone the repository:
+
+```shell
+$ git clone https://github.com/CREAT-e/copyright-evidence-api
+$ cd copyright-evidence-api
+```
+
 Install the dependencies:
 
 ```shell
@@ -29,8 +36,6 @@ pip install -r requirements/development.txt
 Run the server.
 
 ```shell
-$ git clone https://github.com/CREAT-e/copyright-evidence-api
-$ cd copyright-evidence-api
 $ python src/server.py
 ```
 
