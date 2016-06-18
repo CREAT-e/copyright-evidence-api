@@ -55,6 +55,8 @@ Returns a JSON list of studies.
       "authentic_link": "http://iisit.org/Vol7/IISITv7p321-328Acilar817.pdf", 
       "citation": "..."
       ...
-    }, 
+    },
+    ...
+  ]
 }
 ```
