@@ -39,7 +39,7 @@ Run the server.
 $ python src/server.py
 ```
 
-Open http://localhost:3000:
+Open <http://localhost:3000>
 
 ## API Reference
 
