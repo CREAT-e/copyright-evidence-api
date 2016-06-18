@@ -47,7 +47,7 @@ Open <http://localhost:3000>
 
 Returns a JSON list of studies.
 
-```json
+```
 {
   "studies": [
     {
