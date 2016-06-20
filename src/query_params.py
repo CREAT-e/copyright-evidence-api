@@ -31,4 +31,5 @@ def parse_filter_param(request):
         return {}
     else:
         filter_pairs = filter_param.split(",")
-        return [(key,val) for (key,val) in map(lambda pair: pair.split(":"), filter_pairs)]
+        return [(key, val) for (key, val)
+                in map(lambda pair: pair.split(":"), filter_pairs)]
