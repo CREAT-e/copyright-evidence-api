@@ -1,4 +1,4 @@
-from flask import request
+
 
 def parse_fields_param(request):
     """
@@ -12,6 +12,7 @@ def parse_fields_param(request):
         return []
     else:
         return [field.strip() for field in fields.split(",")]
+
 
 def parse_filter_param(request):
     """

@@ -14,6 +14,7 @@ def get_studies_json():
     return [Study(text).enriched_json()
             for text in database.get_studies_text()]
 
+
 @app.route("/studies")
 def studies():
     studies = get_studies_json()
