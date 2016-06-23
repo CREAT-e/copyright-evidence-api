@@ -1,3 +1,6 @@
+import re
+
+
 def parse_list(text, delim):
     return [i.strip() for i in filter(None, text.split(delim))]
 
@@ -12,6 +15,11 @@ def parse_comma_list(text):
 
 def parse_boolean(text):
     return text.lower() in ["y", "yes", "t", "true"]
+
+
+def parse_policy(text):
+    policies = re.split("[,]*\s*[A-Z][.]\s", text)
+    return policies
 
 
 study_enrichments = {
@@ -64,7 +72,8 @@ study_enrichments = {
         "name": "discipline"
     },
     "EvidenceBasedPolicy": {
-        "name": "evidence_based_policy"
+        "name": "evidence_based_policy",
+        "enrich": parse_policy
     },
     "Evidence Based Policy": {
         "name": "evidence_based_policy"
