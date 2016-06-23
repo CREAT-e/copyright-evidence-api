@@ -2,7 +2,9 @@ from flask import Flask, jsonify, request
 from database import WikiDatabase
 from models import Study
 from query_params import parse_fields_param, parse_filter_param
-from study_collection_utils import filter_studies, deleted_unrequired_fields
+
+from study_collection_utils import filter_studies, deleted_unrequired_fields, \
+    get_valid_values
 
 app = Flask(__name__)
 app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
@@ -27,6 +29,19 @@ def studies():
 
     return jsonify({"studies": filtered_studies})
 
+
+@app.route("/values")
+def valid_values():
+    """
+    Returns all the values for a given field - useful for populating dropdown
+    menus or populating an axis on a chart for example.
+    """
+    studies = get_studies_json()
+
+    field = request.args.get("field")
+    values = get_valid_values(studies, field)
+
+    return jsonify({"values": values})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=app.config["PORT"])
