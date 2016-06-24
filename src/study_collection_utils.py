@@ -5,6 +5,20 @@ def filter_studies(studies, fields_filter):
     return [study for study in studies if matches_filter(study, fields_filter)]
 
 
+def get_valid_values(studies, field):
+    valid_values = set()
+
+    for study in studies:
+        value = study.get(field)
+        if value:
+            if isinstance(value, list):
+                valid_values.update(value)
+            else:
+                valid_values.add(value)
+
+    return list(valid_values)
+
+
 def matches_filter(study, fields_filter):
     matching = [key in study and value_matches(study[key], val)
                 for (key, val) in fields_filter]
