@@ -27,3 +27,8 @@ class Study(object):
             if val:
                 json[name] = enrich(val) if enrich else val
         return json
+
+    @staticmethod
+    def valid_fields():
+        return [enrichment["name"]
+                for enrichment in study_enrichments.values()]

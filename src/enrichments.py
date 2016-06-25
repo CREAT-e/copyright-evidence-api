@@ -1,4 +1,5 @@
 import re
+import string
 
 
 def parse_list(text, delim):
@@ -18,7 +19,8 @@ def parse_boolean(text):
 
 
 def parse_policy(text):
-    policies = re.split("[,]*\s*[A-Z][.]\s", text)
+    policies = [policy.strip(string.punctuation)
+                for policy in re.split("[,]*\s*[A-Z][.]\s", text)]
     policies.pop(0)
     return policies
 

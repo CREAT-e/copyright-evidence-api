@@ -30,6 +30,16 @@ def studies():
     return jsonify({"studies": filtered_studies})
 
 
+@app.route("/properties")
+def valid_study_properties():
+    """
+    Return all the valid properties that can be used in filters and 'field'
+    query params in the REST API. Useful in combination with '/values' to allow
+    the user to dynamically choose fields to generate a visualization from.
+    """
+    return jsonify({"properties": Study.valid_fields()})
+
+
 @app.route("/values")
 def valid_values():
     """
@@ -42,6 +52,7 @@ def valid_values():
     values = get_valid_values(studies, field)
 
     return jsonify({"values": values})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=app.config["PORT"])
