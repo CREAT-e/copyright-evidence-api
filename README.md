@@ -60,3 +60,77 @@ Returns a JSON list of studies.
   ]
 }
 ```
+
+#### Query Parameters
+
+#### ?fields=field1,field2
+
+Returns only certain fields for each study.
+
+* /studies/?fields=abstract, citation
+
+```
+{
+  "studies": [
+    {
+      "abstract": "...", 
+      "citation": "..."
+    },
+    ...
+  ]
+}
+```
+
+#### ?filter=field1:value1,field2:value2
+
+* Returns only studies which have fields with the specified values. For list fields, one of the list values must match the given value
+
+* /studies/filter=year:2007,funded_by:European%20Commission
+
+```
+{
+  "studies": [
+    {
+      "abstract": "...", 
+      "citation": "...",
+      "year":2007,
+      "funded_by": ["European Commission", "ESPRC"]
+      ...
+    },
+    ...
+  ]
+}
+```
+
+### /values?field=field
+
+Returns a list of all the legal values for a given field.
+
+* /values/?field=year
+
+```
+{
+  "values": [
+    1980,
+    1982
+    ...
+  ]
+}
+```
+
+### /properties
+
+Lists all the valid properties that can be retrieved for studies.
+
+```
+{
+  "properties": [
+  "cross_country",
+  "funded_by",
+  "literature_review",
+   ...
+   ]
+  }
+```
+
+
