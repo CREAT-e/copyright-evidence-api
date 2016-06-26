@@ -83,7 +83,7 @@ Returns only certain fields for each study.
 
 #### ?filter=field1:value1,field2:value2
 
-* Returns only studies which have fields with the specified values. For list fields, one of the list values must match the given value
+Returns only studies which have fields with the specified values. For list fields, one of the list values must match the given value
 
 * /studies/filter=year:2007,funded_by:European%20Commission
 
