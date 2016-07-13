@@ -25,6 +25,13 @@ def parse_policy(text):
     return policies
 
 
+def parse_fundamental_issue(text):
+    issues = [issue.strip(string.punctuation)
+                for issue in re.split("[,]*\s*[1-9][.]\s", text)]
+    issues.pop(0)
+    return issues
+
+
 study_enrichments = {
     "Abstract": {
         "name": "abstract"
@@ -85,10 +92,12 @@ study_enrichments = {
         "name": "full_citation"
     },
     "Fundamental Issue": {
-        "name": "fundamental_issue"
+        "name": "fundamental_issue",
+        "enrich": parse_fundamental_issue
     },
     "FundamentalIssue": {
-        "name": "fundamental_issue"
+        "name": "fundamental_issue",
+        "enrich": parse_fundamental_issue
     },
     "Funded By": {
         "name": "funded_by",
