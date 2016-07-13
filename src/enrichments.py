@@ -27,7 +27,7 @@ def parse_policy(text):
 
 def parse_fundamental_issue(text):
     issues = [issue.strip(string.punctuation)
-                for issue in re.split("[,]*\s*[1-9][.]\s", text)]
+              for issue in re.split("[,]*\s*[1-9][.]\s", text)]
     issues.pop(0)
     return issues
 
