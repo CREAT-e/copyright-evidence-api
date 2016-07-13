@@ -51,8 +51,8 @@ Returns a JSON list of studies.
 {
   "studies": [
     {
-      "abstract": "...", 
-      "authentic_link": "http://iisit.org/Vol7/IISITv7p321-328Acilar817.pdf", 
+      "abstract": "...",
+      "authentic_link": "http://iisit.org/Vol7/IISITv7p321-328Acilar817.pdf",
       "citation": "..."
       ...
     },
@@ -73,7 +73,7 @@ Returns only certain fields for each study.
 {
   "studies": [
     {
-      "abstract": "...", 
+      "abstract": "...",
       "citation": "..."
     },
     ...
@@ -91,7 +91,7 @@ Returns only studies which have fields with the specified values. For list field
 {
   "studies": [
     {
-      "abstract": "...", 
+      "abstract": "...",
       "citation": "...",
       "year":2007,
       "funded_by": ["European Commission", "ESPRC"]
@@ -101,6 +101,8 @@ Returns only studies which have fields with the specified values. For list field
   ]
 }
 ```
+
+**Note**: Values with commas must be escaped with a leading backslash (e.g. /studies/filter=authors:Kauffman\,RJ,year:2007
 
 ### /values?field=field
 
@@ -132,5 +134,3 @@ Lists all the valid properties that can be retrieved for studies.
    ]
   }
 ```
-
-

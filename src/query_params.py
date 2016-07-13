@@ -27,9 +27,15 @@ def parse_filter_param(request):
 
     filter_param = request.args.get("filter")
 
+    print("filter param is: ")
+    print(filter_param)
+
     if not filter_param:
         return {}
     else:
-        filter_pairs = filter_param.split(",")
+        filter_pairs = filter_param.split(",?<!\\")
+        filter_pairs = list(map(lambda pair: pair.replace("\\,", ","),
+                                filter_pairs))
+
         return [(key, val) for (key, val)
                 in map(lambda pair: pair.split(":"), filter_pairs)]
