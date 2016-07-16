@@ -19,7 +19,7 @@ def parse_boolean(text):
 
 
 def parse_policy(text):
-    policies = [policy.strip(string.punctuation)
+    policies = [policy.strip(string.punctuation).partition("(")[0]
                 for policy in re.split("[,]*\s*[A-Z][.]\s", text)]
     policies.pop(0)
     return policies
@@ -86,7 +86,8 @@ study_enrichments = {
         "enrich": parse_policy
     },
     "Evidence Based Policy": {
-        "name": "evidence_based_policy"
+        "name": "evidence_based_policy",
+        "enrich": parse_policy
     },
     "Full Citation": {
         "name": "full_citation"

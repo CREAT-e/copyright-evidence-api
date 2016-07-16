@@ -30,5 +30,6 @@ class Study(object):
 
     @staticmethod
     def valid_fields():
-        return [enrichment["name"]
-                for enrichment in study_enrichments.values()]
+        fields = [enrichment["name"]
+                  for enrichment in study_enrichments.values()]
+        return list(set(fields))
