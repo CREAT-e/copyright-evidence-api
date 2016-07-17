@@ -27,9 +27,6 @@ def parse_filter_param(request):
 
     filter_param = request.args.get("filter")
 
-    print("filter param is: ")
-    print(filter_param)
-
     if not filter_param:
         return {}
     else:

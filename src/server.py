@@ -37,7 +37,16 @@ def valid_study_properties():
     query params in the REST API. Useful in combination with '/values' to allow
     the user to dynamically choose fields to generate a visualization from.
     """
-    return jsonify({"properties": Study.valid_fields()})
+    return jsonify({"properties": Study.valid_fields(False)})
+
+
+@app.route("/aggregatable_properties")
+def aggregatable_study_properties():
+    """
+    Same behaviour as /properties, but excludes fields that it doesn't make
+    sense to generate charts / aggregations from
+    """
+    return jsonify({"properties": Study.valid_fields(True)})
 
 
 @app.route("/values")

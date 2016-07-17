@@ -18,8 +18,12 @@ def parse_boolean(text):
     return text.lower() in ["y", "yes", "t", "true"]
 
 
+def strip_trailing_punctuation(text):
+    return text.strip(string.punctuation)
+
+
 def parse_policy(text):
-    policies = [policy.strip(string.punctuation).partition("(")[0]
+    policies = [strip_trailing_punctuation(policy).partition("(")[0]
                 for policy in re.split("[,]*\s*[A-Z][.]\s", text)]
     policies.pop(0)
     return policies
@@ -41,19 +45,23 @@ study_enrichments = {
     },
     "Author": {
         "name": "authors",
-        "enrich": parse_scolon_list
+        "enrich": parse_scolon_list,
+        "aggregatable": True
     },
     "Comparative": {
         "name": "comparative",
-        "enrich": parse_boolean
+        "enrich": parse_boolean,
+        "aggregatable": True
     },
     "Country": {
         "name": "country",
-        "enrich": parse_scolon_list
+        "enrich": parse_scolon_list,
+        "aggregatable": True
     },
     "Cross-country": {
         "name": "cross_country",
-        "enrich": parse_boolean
+        "enrich": parse_boolean,
+        "aggregatable": True
     },
     "Data": {
         "name": "data",
@@ -67,13 +75,16 @@ study_enrichments = {
     },
     "Data Source": {
         "name": "data_source",
-        "enrich": parse_scolon_list
+        "enrich": parse_scolon_list,
+        "aggregatable": True
     },
     "Data Type": {
-        "name": "data_type"
+        "name": "data_type",
+        "aggregatable": True
     },
     "Data Year": {
-        "name": "data_year"
+        "name": "data_year",
+        "aggregatable": True
     },
     "Description of Data": {
         "name": "data_description"
@@ -83,57 +94,70 @@ study_enrichments = {
     },
     "EvidenceBasedPolicy": {
         "name": "evidence_based_policy",
-        "enrich": parse_policy
+        "enrich": parse_policy,
+        "aggregatable": True
     },
     "Evidence Based Policy": {
         "name": "evidence_based_policy",
-        "enrich": parse_policy
+        "enrich": parse_policy,
+        "aggregatable": True
     },
     "Full Citation": {
         "name": "full_citation"
     },
     "Fundamental Issue": {
         "name": "fundamental_issue",
-        "enrich": parse_fundamental_issue
+        "enrich": parse_fundamental_issue,
+        "aggregatable": True
     },
     "FundamentalIssue": {
         "name": "fundamental_issue",
-        "enrich": parse_fundamental_issue
+        "enrich": parse_fundamental_issue,
+        "aggregatable": True
     },
     "Funded By": {
         "name": "funded_by",
-        "enrich": parse_scolon_list
+        "enrich": parse_scolon_list,
+        "aggregatable": True
     },
     "Government or policy": {
         "name": "government_or_policy",
-        "enrich": parse_boolean
+        "enrich": parse_boolean,
+        "aggregatable": True
     },
     "Industry": {
         "name": "industry",
-        "enrich": parse_scolon_list
+        "enrich": parse_scolon_list,
+        "aggregatable": True
     },
     "Intervention-Response": {
         "name": "intervention_response"
     },
     "Level of Aggregation": {
-        "name": "aggregation_level"
+        "name": "aggregation_level",
+        "enrich": strip_trailing_punctuation,
+        "aggregatable": True
     },
     "Link": {
         "name": "link"
     },
     "Literature review": {
         "name": "literature_review",
-        "enrich": parse_boolean
+        "enrich": parse_boolean,
+        "aggregatable": True
     },
     "Method": {
         "name": "method",
-        "enrich": parse_comma_list
+        "enrich": parse_comma_list,
+        "aggregatable": True
     },
     "Method of Analysis": {
-        "name": "analysis_method"
+        "name": "analysis_method",
+        "enrich": parse_comma_list
     },
     "Method of Collection": {
-        "name": "collection_method"
+        "name": "collection_method",
+        "enrich": parse_comma_list
     },
     "Name of Study": {
         "name": "name"
@@ -149,15 +173,18 @@ study_enrichments = {
     },
     "Reference": {
         "name": "references",
-        "enrich": parse_scolon_list
+        "enrich": parse_scolon_list,
+        "aggregatable": True
     },
     "Sample Size": {
-        "name": "sample_size"
+        "name": "sample_size",
+        "aggregatable": True
     },
     "Title": {
         "name": "title"
     },
     "Year": {
-        "name": "year"
+        "name": "year",
+        "aggregatable": True
     }
 }

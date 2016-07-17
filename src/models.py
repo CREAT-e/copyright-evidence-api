@@ -29,7 +29,8 @@ class Study(object):
         return json
 
     @staticmethod
-    def valid_fields():
+    def valid_fields(aggregatable_only):
         fields = [enrichment["name"]
-                  for enrichment in study_enrichments.values()]
+                  for enrichment in study_enrichments.values()
+                  if not aggregatable_only or enrichment.get("aggregatable")]
         return list(set(fields))

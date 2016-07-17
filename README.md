@@ -134,3 +134,21 @@ Lists all the valid properties that can be retrieved for studies.
    ]
   }
 ```
+
+### /aggregatable_properties
+
+Lists all the properties of studies that it makes sense to generate
+charts or aggregations from.
+
+```
+{
+  "properties": [
+    "fundamental_issue",
+    "aggregation_level",
+    "data_year",
+    "literature_review",
+    "year",
+     ...
+   ]
+  }
+```
