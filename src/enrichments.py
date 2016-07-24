@@ -22,15 +22,19 @@ def strip_trailing_punctuation(text):
     return text.strip(string.punctuation)
 
 
+def strip_examples(text):
+    return text.partition("(")[0]
+
+
 def parse_policy(text):
-    policies = [strip_trailing_punctuation(policy).partition("(")[0]
+    policies = [strip_examples(policy)
                 for policy in re.split("[,]*\s*[A-Z][.]\s", text)]
     policies.pop(0)
     return policies
 
 
 def parse_fundamental_issue(text):
-    issues = [issue.strip(string.punctuation)
+    issues = [strip_examples(issue)
               for issue in re.split("[,]*\s*[1-9][.]\s", text)]
     issues.pop(0)
     return issues
