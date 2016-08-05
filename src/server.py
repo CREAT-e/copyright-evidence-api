@@ -1,13 +1,11 @@
 from flask import Flask, jsonify, request, abort
 from database import WikiDatabase
 from models import Study
-from logger import init_logger
 from query_params import parse_fields_param, parse_filter_param
 import study_collection_utils as sc_utils
 
 app = Flask(__name__)
 app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
-init_logger(app)
 
 database = WikiDatabase(app.config["DATABASE"])
 
@@ -20,7 +18,6 @@ def get_studies_json():
 @app.route("/studies")
 def studies():
     """Return a JSON list of all studies and their details."""
-    app.logger.info("/studies")
     studies = get_studies_json()
     only_fields = parse_fields_param(request)
     filter_by = parse_filter_param(request)
@@ -36,7 +33,6 @@ def valid_study_properties():
     query params in the REST API. Useful in combination with '/values' to allow
     the user to dynamically choose fields to generate a visualization from.
     """
-    app.logger.info("/properties")
     return jsonify({"properties": Study.valid_fields(False)})
 
 
@@ -46,7 +42,6 @@ def aggregatable_study_properties():
     Same behaviour as /properties, but excludes fields that it doesn't make
     sense to generate charts / aggregations from
     """
-    app.logger.info("/aggregatable_properties")
     return jsonify({"properties": Study.valid_fields(True)})
 
 
@@ -56,7 +51,6 @@ def valid_values():
     Returns all the values for a given field - useful for populating dropdown
     menus or populating an axis on a chart for example.
     """
-    app.logger.info("/values")
     studies = get_studies_json()
     field = request.args.get("field")
     values = sc_utils.get_valid_values(studies, field)
@@ -66,7 +60,6 @@ def valid_values():
 @app.errorhandler(Exception)
 def unhandled_exception(e):
     """Log unexcepted exceptions."""
-    app.logger.error("Unhandled exception: %s", (e))
     return abort(500)
 
 
