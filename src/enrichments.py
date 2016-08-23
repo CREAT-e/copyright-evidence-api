@@ -19,7 +19,7 @@ def parse_boolean(text):
 
 
 def strip_trailing_punctuation(text):
-    return text.strip(string.punctuation)
+    return text.strip(string.punctuation).strip()
 
 
 def strip_examples(text):
@@ -27,14 +27,14 @@ def strip_examples(text):
 
 
 def parse_policy(text):
-    policies = [strip_examples(policy)
+    policies = [strip_trailing_punctuation(strip_examples(policy))
                 for policy in re.split("[,]*\s*[A-Z][.]\s", text)]
     policies.pop(0)
     return policies
 
 
 def parse_fundamental_issue(text):
-    issues = [strip_examples(issue)
+    issues = [strip_trailing_punctuation(strip_examples(issue))
               for issue in re.split("[,]*\s*[1-9][.]\s", text)]
     issues.pop(0)
     return issues
