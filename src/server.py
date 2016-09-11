@@ -27,9 +27,9 @@ def __updateData():
         app.logger.info("Finished fetching data from " + data_url)
     except requests.exceptions.RequestException as e:
         app.logger.info("Error fetching data from " + data_url
-                        + "\nCannot start application without data."
+                        + "\nCannot update wiki data."
                         + "\nPlease ensure that the DATA_URL parameter is"
-                        + " valid and try again."
+                        + " valid and restart the application."
                         + "\nMore detailed error:")
 
         app.logger.error(e)
