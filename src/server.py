@@ -5,15 +5,15 @@ from query_params import parse_fields_param, parse_filter_param
 import study_collection_utils as sc_utils
 import logging
 import requests
-import sys
-import time, threading
+import threading
 
 app = Flask(__name__)
 app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
 
-update_frequency= app.config["DATA_UPDATE_FREQUENCY_MINUTES"]
+update_frequency = app.config["DATA_UPDATE_FREQUENCY_MINUTES"]
 
 update_lock = threading.Lock()
+
 
 def __updateData():
     data_url = app.config["DATA_URL"]
@@ -27,13 +27,15 @@ def __updateData():
         app.logger.info("Finished fetching data from " + data_url)
     except requests.exceptions.RequestException as e:
         app.logger.info("Error fetching data from " + data_url
-         + "\nCannot start application without data."
-         + "\nPlease ensure that the DATA_URL parameter is valid and try again."
-         + "\nMore detailed error:")
+                        + "\nCannot start application without data."
+                        + "\nPlease ensure that the DATA_URL parameter is"
+                        + " valid and try again."
+                        + "\nMore detailed error:")
 
         app.logger.error(e)
     finally:
         update_lock.release()
+
 
 @app.before_first_request
 def setup_logging():
@@ -50,6 +52,7 @@ def get_studies_json():
                 for text in studies_text]
     finally:
         update_lock.release()
+
 
 @app.route("/studies")
 def studies():
@@ -102,6 +105,7 @@ def unhandled_exception(e):
     """Log unexcepted exceptions."""
     app.logger.info("Unhandled Exception: %s", (e))
     return abort(500)
+
 
 def keep_data_updated():
     __updateData()

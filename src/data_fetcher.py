@@ -1,5 +1,4 @@
 import requests
-import sqlite3
 
 
 class DataFetcher(object):
