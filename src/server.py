@@ -26,11 +26,11 @@ def __updateData():
         studies_text = data_fetcher.get_studies_text()
         app.logger.info("Finished fetching data from " + data_url)
     except requests.exceptions.RequestException as e:
-        app.logger.info("Error fetching data from " + data_url
-                        + "\nCannot update wiki data."
-                        + "\nPlease ensure that the DATA_URL parameter is"
-                        + " valid and restart the application."
-                        + "\nMore detailed error:")
+        app.logger.info("Error fetching data from " + data_url +
+                        "\nCannot update wiki data." +
+                        "\nPlease ensure that the DATA_URL parameter is" +
+                        " valid and restart the application." +
+                        "\nMore detailed error:")
 
         app.logger.error(e)
     finally:
