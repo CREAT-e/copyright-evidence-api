@@ -1,15 +1,35 @@
 from flask import Flask, jsonify, request, abort
-from database import WikiDatabase
+from data_fetcher import DataFetcher
 from models import Study
 from query_params import parse_fields_param, parse_filter_param
 import study_collection_utils as sc_utils
 import logging
+import requests
+import sys
 
 app = Flask(__name__)
 app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
 
-database = WikiDatabase(app.config["DATABASE"])
+def __fetchData():
+    data_url = app.config["DATA_URL"]
+    data_fetcher = DataFetcher(data_url)
 
+    try:
+        app.logger.info("Getting data from " + data_url)
+        data = data_fetcher.get_studies_text()
+        app.logger.info("Finished fetching data from " + data_url)
+    except requests.exceptions.RequestException as e:
+        app.logger.info("Error fetching data from " + data_url
+         + "\nCannot start application without data."
+         + "\nPlease ensure that the DATA_URL parameter is valid and try again."
+         + "\nMore detailed error:")
+
+        app.logger.error(e)
+        sys.exit(1)
+
+    return data
+
+studies_text = __fetchData()
 
 @app.before_first_request
 def setup_logging():
@@ -20,7 +40,7 @@ def setup_logging():
 
 def get_studies_json():
     return [Study(text).enriched_json()
-            for text in database.get_studies_text()]
+            for text in studies_text]
 
 
 @app.route("/studies")
