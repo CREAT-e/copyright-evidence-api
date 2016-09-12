@@ -12,6 +12,10 @@ app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
 
 update_frequency = app.config["DATA_UPDATE_FREQUENCY_MINUTES"]
 
+
+# Python doesn't have a 'one writer many readers' lock in the standard library.
+# The app isn't heavily used at the moment so we will just lock on read
+# for now and not bother trying to implement our own reader-writer lock
 update_lock = threading.Lock()
 
 
