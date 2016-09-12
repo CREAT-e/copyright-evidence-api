@@ -13,7 +13,7 @@ DEBUG = True
 PORT = 3000
 # Expects a JSON collection of wikitext pages JSON in the format [{"data": "wikitext_page_1"}, ... ]
 DATA_URL = "http://path.to.data.dump"
-# How frequently the data should be refreshes from the DATA_URL page in minutes
+# How frequently the data should be refreshed from the DATA_URL page in minutes
 DATA_UPDATE_FREQUENCY_MINUTES=1
 ```
 
