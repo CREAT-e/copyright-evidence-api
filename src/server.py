@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, abort
 from data_fetcher import DataFetcher
-from models import Study
+from models import DataFetchException, Study
 from query_params import parse_fields_param, parse_filter_param
 import study_collection_utils as sc_utils
 import logging
@@ -29,9 +29,11 @@ def __updateData():
         global studies_text
         studies_text = data_fetcher.get_studies_text()
         app.logger.info("Finished fetching data from " + data_url)
-    except requests.exceptions.RequestException as e:
+    except (DataFetchException, requests.exceptions.RequestException) as e:
         app.logger.info("Error fetching data from " + data_url +
-                        "\nCannot update wiki data." +
+                        "\nCannot update wiki data. Visualization data" +
+                        "\nmay not be up to date or may be completely empty" +
+                        "\nuntil the URL is successfully reachable."
                         "\nPlease ensure that the DATA_URL parameter is" +
                         " valid and restart the application." +
                         "\nMore detailed error:")

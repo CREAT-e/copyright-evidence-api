@@ -34,3 +34,15 @@ class Study(object):
                   for enrichment in study_enrichments.values()
                   if not aggregatable_only or enrichment.get("aggregatable")]
         return list(set(fields))
+
+
+class DataFetchException(Exception):
+
+    def __init__(self, status_code, error_message):
+        self.message = self.make_message(status_code, error_message)
+        super(DataFetchException, self).__init__(self.message)
+
+    def make_message(self, status_code, error_message):
+        message = ("Error code: <" + str(status_code) +
+                   "\nmessage: " + error_message)
+        return message

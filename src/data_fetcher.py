@@ -1,4 +1,5 @@
 import requests
+from models import DataFetchException
 
 
 class DataFetcher(object):
@@ -8,6 +9,9 @@ class DataFetcher(object):
 
     def get_studies_text(self):
         r = requests.get(self.data_url)
-        response_json = r.json()
 
-        return [study["data"] for study in response_json]
+        if r.status_code != 200:
+            raise DataFetchException(r.status_code, r.text)
+        else:
+            response_json = r.json()
+            return [study["data"] for study in response_json]
