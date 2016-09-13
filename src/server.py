@@ -22,8 +22,7 @@ update_lock = threading.Lock()
 
 def __now_string():
     now = datetime.datetime.now()
-    now.strftime("%Y-%m-%d %H:%M")
-    return now.isoformat()
+    return now.strftime("%Y-%m-%d %H:%M")
 
 
 def __updateData():
