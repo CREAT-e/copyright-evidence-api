@@ -118,5 +118,7 @@ def keep_data_updated():
     threading.Timer(update_frequency * 60, keep_data_updated).start()
 
 if __name__ == "__main__":
+    global studies_text
+    studies_text = []
     keep_data_updated()
     app.run(host="0.0.0.0", port=app.config["PORT"])
