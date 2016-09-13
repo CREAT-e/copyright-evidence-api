@@ -11,7 +11,10 @@ Create a configuration file:
 # See cfg/example.cfg for an example.
 DEBUG = True
 PORT = 3000
-DATABASE = "/home/user/db/database.sqlite"
+# Expects a JSON collection of wikitext pages JSON in the format [{"data": "wikitext_page_1"}, ... ]
+DATA_URL = "http://path.to.data.dump"
+# How frequently the data should be refreshed from the DATA_URL page in minutes
+DATA_UPDATE_FREQUENCY_MINUTES=1
 ```
 
 Set the environment variable `COPYRIGHT_EVIDENCE_API_CFG` to the path of your configuration file:

@@ -1,14 +1,44 @@
 from flask import Flask, jsonify, request, abort
-from database import WikiDatabase
+from data_fetcher import DataFetcher
 from models import Study
 from query_params import parse_fields_param, parse_filter_param
 import study_collection_utils as sc_utils
 import logging
+import requests
+import threading
 
 app = Flask(__name__)
 app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
 
-database = WikiDatabase(app.config["DATABASE"])
+update_frequency = app.config["DATA_UPDATE_FREQUENCY_MINUTES"]
+
+
+# Python doesn't have a 'one writer many readers' lock in the standard library.
+# The app isn't heavily used at the moment so we will just lock on read
+# for now and not bother trying to implement our own reader-writer lock
+update_lock = threading.Lock()
+
+
+def __updateData():
+    data_url = app.config["DATA_URL"]
+    data_fetcher = DataFetcher(data_url)
+
+    try:
+        update_lock.acquire()
+        app.logger.info("Getting data from " + data_url)
+        global studies_text
+        studies_text = data_fetcher.get_studies_text()
+        app.logger.info("Finished fetching data from " + data_url)
+    except requests.exceptions.RequestException as e:
+        app.logger.info("Error fetching data from " + data_url +
+                        "\nCannot update wiki data." +
+                        "\nPlease ensure that the DATA_URL parameter is" +
+                        " valid and restart the application." +
+                        "\nMore detailed error:")
+
+        app.logger.error(e)
+    finally:
+        update_lock.release()
 
 
 @app.before_first_request
@@ -19,8 +49,13 @@ def setup_logging():
 
 
 def get_studies_json():
-    return [Study(text).enriched_json()
-            for text in database.get_studies_text()]
+    try:
+        update_lock.acquire()
+        global studies_text
+        return [Study(text).enriched_json()
+                for text in studies_text]
+    finally:
+        update_lock.release()
 
 
 @app.route("/studies")
@@ -76,5 +111,10 @@ def unhandled_exception(e):
     return abort(500)
 
 
+def keep_data_updated():
+    __updateData()
+    threading.Timer(update_frequency * 60, keep_data_updated).start()
+
 if __name__ == "__main__":
+    keep_data_updated()
     app.run(host="0.0.0.0", port=app.config["PORT"])
