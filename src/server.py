@@ -6,6 +6,7 @@ import study_collection_utils as sc_utils
 import logging
 import requests
 import threading
+import datetime
 
 app = Flask(__name__)
 app.config.from_envvar("COPYRIGHT_EVIDENCE_API_CFG")
@@ -19,6 +20,12 @@ update_frequency = app.config["DATA_UPDATE_FREQUENCY_MINUTES"]
 update_lock = threading.Lock()
 
 
+def __now_string():
+    now = datetime.datetime.now()
+    now.strftime("%Y-%m-%d %H:%M")
+    return now.isoformat()
+
+
 def __updateData():
     data_url = app.config["DATA_URL"]
     data_fetcher = DataFetcher(data_url)
@@ -29,6 +36,9 @@ def __updateData():
         global studies_text
         studies_text = data_fetcher.get_studies_text()
         app.logger.info("Finished fetching data from " + data_url)
+
+        global data_last_updated
+        data_last_updated = __now_string()
     except (DataFetchException, requests.exceptions.RequestException) as e:
         app.logger.info("Error fetching data from " + data_url +
                         "\nCannot update wiki data. Visualization data" +
@@ -93,6 +103,21 @@ def aggregatable_study_properties():
     return jsonify({"properties": Study.valid_fields(True)})
 
 
+@app.route("/status")
+def server_status():
+    global data_last_updated
+    global studies_text
+
+    num_studies = len(studies_text)
+
+    payload = {
+        'last_updated': data_last_updated,
+        'study_count': num_studies
+    }
+
+    return jsonify(payload)
+
+
 @app.route("/values")
 def valid_values():
     """
@@ -119,6 +144,8 @@ def keep_data_updated():
 
 if __name__ == "__main__":
     global studies_text
+    global data_last_updated
     studies_text = []
+    data_last_updated = "never"
     keep_data_updated()
     app.run(host="0.0.0.0", port=app.config["PORT"])
