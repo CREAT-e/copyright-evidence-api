@@ -72,7 +72,7 @@ def get_studies_json():
 @app.route("/studies")
 def studies():
     """Return a JSON list of all studies and their details."""
-    app.logger.info("/studies")
+    app.logger.info("/")
     studies = get_studies_json()
     only_fields = parse_fields_param(request)
     filter_by = parse_filter_param(request)
